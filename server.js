@@ -7,26 +7,19 @@ const noteRoutes = require('./routes/notes');
 
 const app = express();
 
-// ── MIDDLEWARE ──
-app.use(cors());           // allows requests from other origins (e.g. a frontend)
-app.use(express.json());   // parses incoming JSON request bodies
+// MIDDLEWARE 
+app.use(cors());           //fronted req
+app.use(express.json());   
 
-// ── ROUTES ──
 app.use('/api/notes', noteRoutes);
-
-// ── ROOT ──
 app.get('/', (req, res) => {
   res.json({ message: 'Notes API is running.' });
 });
-
-// ── 404 HANDLER ──
 app.use((req, res) => {
   res.status(404).json({ error: 'Route not found' });
 });
-
-// ── CONNECT TO MONGODB & START SERVER ──
+// conect mongo
 const PORT = process.env.PORT || 5000;
-
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
